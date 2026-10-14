@@ -1,7 +1,10 @@
 {
 	"$schema": "./node_modules/wrangler/config-schema.json",
 	"compatibility_date": "2026-10-12",
-	"compatibility_flags": ["global_fetch_strictly_public"],
+	"compatibility_flags": [
+		"nodejs_compat",
+		"global_fetch_strictly_public"
+	],
 	"name": "lumicasa-smart-home",
 	"main": "@astrojs/cloudflare/entrypoints/server",
 	"assets": {
@@ -10,5 +13,18 @@
 	},
 	"observability": {
 		"enabled": true
-	}
+	},
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "lumicasa-db",
+			"database_id": "9ba9246b-4b09-4df7-8324-a1bb29640805"
+		}
+	],
+	"r2_buckets": [
+		{
+			"bucket_name": "lumicasa-media",
+			"binding": "MEDIA_BUCKET"
+		}
+	]
 }
