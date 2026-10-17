@@ -3,7 +3,7 @@
 > Chuyển đổi từ 01 file HTML tĩnh (`Smart Home.html`) sang website động hoàn chỉnh có CMS, chạy trên nền tảng Serverless Edge Computing của Cloudflare.
 - **Production URL**: [https://lumicasa-smart-home.hungpd.workers.dev](https://lumicasa-smart-home.hungpd.workers.dev)
 - **Git Repository**: [https://github.com/fanhuwng/lumicasa-smart-home](https://github.com/fanhuwng/lumicasa-smart-home)
-- **Ứng viên thực hiện**: Phan Duy Hùng
+- **Ứng viên thực hiện**: Phan Duy Hưng
 - **Email**: phanduyhungdev03@gmail.com
 ---
 ## 1. Công nghệ bắt buộc & Kiến trúc hệ thống
