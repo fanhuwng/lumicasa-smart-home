@@ -17,8 +17,6 @@ Dự án được xây dựng 100% trên hệ sinh thái Edge của Cloudflare, 
 ---
 ## 2. Sơ đồ luồng dữ liệu (Data Flow)
 
-  
-
 [Quản trị viên / Admin]
 │
 │ (Thao tác Thêm/Sửa/Xóa dữ liệu & Upload Media)
@@ -46,8 +44,6 @@ Dự án được xây dựng 100% trên hệ sinh thái Edge của Cloudflare, 
 │ (Trả về HTML + Scoped CSS hoàn chỉnh)
 ▼
 [Trình duyệt Người dùng (Client)]
-
-
   
 ---
 ## 3. Thiết kế Content Model (D1 Database)
@@ -119,45 +115,14 @@ Khai báo tài nguyên trong `wrangler.jsonc`:
   ]
 }
 
-  
-
-  
-
 NOTE
-
-
-  
-
-  Nguyên tắc bảo mật: Dự án sử dụng cơ chế Cloudflare Runtime Bindings (env.DB và env.MEDIA_BUCKET). Không lưu bất kỳ database password, access token hay secret key nào vào mã nguồn và Git repository.
-
-
-  
-
-  
-
-  
+  Nguyên tắc bảo mật: Dự án sử dụng cơ chế Cloudflare Runtime Bindings (env.DB và env.MEDIA_BUCKET). Không lưu bất kỳ database password, access token hay secret key nào vào mã nguồn và Git repository. 
 5. Hướng dẫn cài đặt và chạy Local (Local Setup)
-
-  
-Yêu cầu môi trường
-
-  
-
-  
-Node.js >= 18.17.0 (Khuyên dùng Node 20+ LTS)
-
-  
-npm hoặc pnpm
-
-  
-Tài khoản Cloudflare
-
-  
-
-  
+Yêu cầu môi trường 
+Node.js >= 18.17.0 (Khuyên dùng Node 20+ LTS) 
+npm hoặc pnpm 
+Tài khoản Cloudflare 
 Các bước cài đặt:
-
-  
 bash
 # 1. Clone mã nguồn
 git clone https://github.com/fanhuwng/lumicasa-smart-home.git
@@ -169,18 +134,8 @@ npx wrangler d1 execute lumicasa-db --local --file=./schema.sql
 npx wrangler d1 execute lumicasa-db --local --file=./seed.sql
 # 4. Khởi động máy chủ phát triển
 npm run dev
-
-  
-
 Truy cập: http://localhost:4321
-
-
-  
-
-  
 6. Hướng dẫn Build & Deploy lên Production
-
-  
 bash
 # 1. Đăng nhập tài khoản Cloudflare
 npx wrangler login
@@ -191,82 +146,16 @@ npx wrangler d1 execute lumicasa-db --remote --file=./seed.sql
 npm run build
 # 4. Triển khai lên Cloudflare Workers
 npx wrangler deploy
-
-  
-
-  
 7. Quy trình kiểm thử CRUD (CRUD Test Matrix)
-
-  
-
 Dự án đã kiểm thử thành công toàn bộ ma trận CRUD bắt buộc (Mục 7 trong đề bài):
-
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
 Thao tác	Thao tác thực hiện	Kết quả thực tế trên Production
 CREATE	Thêm sản phẩm thứ 5 qua SQL/Admin	Nút Hero tự động nhảy thành "Xem 5 sản phẩm", xuất hiện thêm Card mới ngay lập tức.
 UPDATE	Đổi giá, hotline hoặc tên sản phẩm	F5 trang web phản ánh ngay thông tin mới mà không cần sửa code component.
 PUBLISH / DRAFT	Đổi status thành 'draft'	Sản phẩm biến mất khỏi public site. Đổi lại 'published' sản phẩm hiển thị lại.
 DELETE	Xóa bản ghi test	Public site hoạt động bình thường, không crash, không card mồ côi (nhờ defensive coding).
 FORM LEAD	Nhập form liên hệ và submit	Gửi qua POST /api/contact, validate số điện thoại VN và lưu trực tiếp vào bảng leads của D1.
-
-  
-
-  
 8. Known Limitations (Giới hạn đã biết)
+Cần chạy schema.sql trước seed.sql khi thiết lập môi trường mới để tránh lỗi bảng chưa tồn tại. 
+Cloudflare R2 Bucket: Tài khoản Cloudflare mới cần kích hoạt R2 qua Dashboard trước khi tạo bucket trên CLI (gói miễn phí 10GB/tháng).  
+Trình duyệt ẩn danh: Trang web hỗ trợ hoàn hảo chế độ ẩn danh (Incognito), không phụ thuộc vào LocalStorage hay Session cookie để hiển thị dữ liệu chính. 
 
-  
-
-  
-Cần chạy schema.sql trước seed.sql khi thiết lập môi trường mới để tránh lỗi bảng chưa tồn tại.
-
-  
-Cloudflare R2 Bucket: Tài khoản Cloudflare mới cần kích hoạt R2 qua Dashboard trước khi tạo bucket trên CLI (gói miễn phí 10GB/tháng).
-
-  
-Trình duyệt ẩn danh: Trang web hỗ trợ hoàn hảo chế độ ẩn danh (Incognito), không phụ thuộc vào LocalStorage hay Session cookie để hiển thị dữ liệu chính.
-
-  
-
-  
----
-Sau khi dán và lưu file `README.md`, bạn chạy lệnh:
-```powershell
-git add README.md
-git commit -m "docs: finalize comprehensive README with complete setup and crud matrix"
-git push
