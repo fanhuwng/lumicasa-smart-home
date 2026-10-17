@@ -1,16 +1,135 @@
 ---
+import Layout from '../layouts/Layout.astro';
+import ProductCard from '../components/ProductCard.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import { getProducts, getServices, getSiteSettings, getMenus } from '../lib/db';
+import { env } from 'cloudflare:workers'; // Chuẩn mới nhất của Cloudflare Workers
+
+// Lấy Cloudflare D1 binding trực tiếp từ env
+const db = (env as any)?.DB;
+
+// Query toàn bộ dữ liệu động từ D1
+const products = await getProducts(db);
+const services = await getServices(db);
+const settings = await getSiteSettings(db);
+const menus = await getMenus(db);
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout siteSettings={settings} menus={menus}>
+  <!-- (Toàn bộ phần code HTML bên dưới giữ nguyên 100% như cũ) -->
+  <section class="page active" id="page-home" data-page="home">
+    <div class="wrap hero">
+      <div>
+        <span class="eyebrow">{settings.eyebrow || "Smart Home • Sống thông minh hơn"}</span>
+        <h1>{settings.hero_title || "Ngôi nhà hiểu bạn trước cả khi bạn lên tiếng."}</h1>
+        <p>{settings.hero_desc || "LUMI CASA cung cấp hệ sinh thái nhà thông minh tinh gọn."}</p>
+        <div class="hero-actions">
+          <button class="btn primary" data-route="products">Xem {products.length} sản phẩm</button>
+          <button class="btn" data-route="services">Khám phá dịch vụ</button>
+        </div>
+      </div>
+      <div class="hero-media">
+        <img src={settings.hero_image || "https://images.pexels.com/photos/28549934/pexels-photo-28549934.jpeg?auto=compress&cs=tinysrgb&w=1600"} alt="Hệ sinh thái LUMI CASA" />
+        <div class="statbar">
+          <div class="stat"><strong>{settings.stat_1_val || "4"}</strong><span>{settings.stat_1_lbl || "Sản phẩm chủ lực"}</span></div>
+          <div class="stat"><strong>{settings.stat_2_val || "6"}</strong><span>{settings.stat_2_lbl || "Dịch vụ triển khai"}</span></div>
+          <div class="stat"><strong>{settings.stat_3_val || "24/7"}</strong><span>{settings.stat_3_lbl || "Giám sát hệ thống"}</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wrap section">
+      <div class="section-title">
+        <div>
+          <span class="card-kicker">Sản phẩm nổi bật</span>
+          <h2>Thiết bị gọn, trải nghiệm liền mạch.</h2>
+        </div>
+        <p>Mỗi thiết bị được thiết kế để hoạt động độc lập nhưng phát huy tốt nhất khi kết nối thành một hệ sinh thái thống nhất.</p>
+      </div>
+      <div class="grid products">
+        {products.map((item) => (
+          <ProductCard product={item} />
+        ))}
+      </div>
+    </div>
+
+    <div class="wrap banner">
+      <div>
+        <h3>Bắt đầu từ một phòng, mở rộng cho cả ngôi nhà.</h3>
+        <p>Đội ngũ LUMI CASA khảo sát nhu cầu và đề xuất cấu hình phù hợp theo ngân sách.</p>
+      </div>
+      <button class="btn primary" data-route="contact">Đặt lịch tư vấn</button>
+    </div>
+  </section>
+
+  <section class="page" id="page-products" data-page="products">
+    <div class="wrap page-head">
+      <span class="eyebrow">{products.length} sản phẩm cụ thể</span>
+      <h1>Thiết bị Smart Home cho từng nhu cầu.</h1>
+      <p>Bốn sản phẩm mẫu đại diện cho một hệ sinh thái có thể mở rộng: điều khiển trung tâm, tương tác, an ninh và giám sát môi trường.</p>
+    </div>
+    <div class="wrap section" style="padding-top:18px">
+      <div class="grid products">
+        {products.map((item) => (
+          <ProductCard product={item} />
+        ))}
+      </div>
+      <div class="banner">
+        <div>
+          <h3>Không cần mua tất cả ngay từ đầu.</h3>
+          <p>Bạn có thể triển khai từng khu vực trước rồi mở rộng sau mà không phải thay lại toàn bộ hệ thống.</p>
+        </div>
+        <button class="btn primary" data-route="contact">Nhận cấu hình đề xuất</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" id="page-services" data-page="services">
+    <div class="wrap page-head">
+      <span class="eyebrow">{services.length} dịch vụ cụ thể</span>
+      <h1>Từ khảo sát đến vận hành, một đội ngũ xuyên suốt.</h1>
+      <p>LUMI CASA thiết kế giải pháp theo thói quen sử dụng thực tế thay vì lắp thật nhiều thiết bị không cần thiết.</p>
+    </div>
+    <div class="wrap section" style="padding-top:18px">
+      <div class="grid services">
+        {services.map((service) => (
+          <ServiceCard service={service} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="page" id="page-contact" data-page="contact">
+    <div class="wrap page-head">
+      <span class="eyebrow">Liên hệ</span>
+      <h1>Biến nhu cầu của bạn thành một ngôi nhà dễ sống hơn.</h1>
+      <p>Gửi thông tin cơ bản, đội ngũ tư vấn sẽ đề xuất cấu hình mẫu phù hợp cho căn hộ, nhà phố hoặc biệt thự.</p>
+    </div>
+    <div class="wrap section" style="padding-top:18px">
+      <div class="contact-layout">
+        <div class="contact-card">
+          <span class="card-kicker">{settings.contact_company || "LUMI CASA Việt Nam"}</span>
+          <h2 style="font-size:34px;margin:10px 0 6px">{settings.contact_studio || "Smart Home Studio"}</h2>
+          <p style="color:var(--muted)">Dữ liệu liên hệ dưới đây là nội dung mẫu cho website demo.</p>
+          <div class="contact-list">
+            <div class="contact-item"><span>Địa chỉ</span><strong>{settings.contact_address || "128 Trần Duy Hưng, Cầu Giấy, Hà Nội"}</strong></div>
+            <div class="contact-item"><span>Hotline</span><strong>{settings.contact_hotline || "0988 246 810"}</strong></div>
+            <div class="contact-item"><span>Email</span><strong>{settings.contact_email || "hello@lumicasa.vn"}</strong></div>
+            <div class="contact-item"><span>Giờ làm việc</span><strong>{settings.contact_hours || "08:30 – 18:00 • Thứ 2 đến Thứ 7"}</strong></div>
+          </div>
+        </div>
+        <form class="form-card" id="contactForm" novalidate>
+          <div class="form-grid">
+            <div class="field"><label for="name">Họ và tên</label><input id="name" name="name" required placeholder="Nguyễn Văn A" /></div>
+            <div class="field"><label for="phone">Số điện thoại</label><input id="phone" name="phone" required placeholder="09xx xxx xxx" /></div>
+            <div class="field"><label for="homeType">Loại nhà</label><input id="homeType" name="homeType" placeholder="Căn hộ / Nhà phố / Biệt thự" /></div>
+            <div class="field"><label for="budget">Ngân sách dự kiến</label><input id="budget" name="budget" placeholder="Ví dụ: 30–50 triệu" /></div>
+            <div class="field full"><label for="message">Nhu cầu của bạn</label><textarea id="message" name="message" placeholder="Tôi muốn ưu tiên ánh sáng, an ninh và điều hòa..."></textarea></div>
+            <div class="field full"><button class="btn primary" type="submit">Gửi yêu cầu tư vấn</button></div>
+          </div>
+          <div class="form-note">Form demo đã sẵn sàng lưu dữ liệu vào D1 Database.</div>
+        </form>
+      </div>
+    </div>
+  </section>
+</Layout>

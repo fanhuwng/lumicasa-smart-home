@@ -1,0 +1,33 @@
+---
+import type { Service } from '../lib/db';
+
+interface Props {
+  service: Service;
+}
+
+const { service } = Astro.props;
+
+// Tách các gạch đầu dòng tính năng (phân tách bởi dấu |)
+const featuresList = service.features ? service.features.split('|') : [];
+---
+
+<article class="card service-card">
+  <div class="service-photo">
+    <img 
+      loading="lazy" 
+      src={service.image_url || 'https://images.pexels.com/photos/28618498/pexels-photo-28618498.jpeg?auto=compress&cs=tinysrgb&w=1000'} 
+      alt={service.name} 
+    />
+  </div>
+  <div class="service-icon">{service.icon || '✦'}</div>
+  <small>{service.order_code || '01'}</small>
+  <h3>{service.name}</h3>
+  <p>{service.description}</p>
+  {featuresList.length > 0 && (
+    <ul>
+      {featuresList.map((item) => (
+        <li>{item.trim()}</li>
+      ))}
+    </ul>
+  )}
+</article>

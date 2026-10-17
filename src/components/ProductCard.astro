@@ -1,0 +1,28 @@
+---
+import type { Product } from '../lib/db';
+
+interface Props {
+  product: Product;
+}
+
+const { product } = Astro.props;
+
+// Xử lý giá tiền dự phòng nếu thiếu
+const displayPrice = product.price_display || (product.price ? `${Number(product.price).toLocaleString('vi-VN')}đ` : 'Liên hệ');
+---
+
+<article class="card">
+  <div class="card-media">
+    <img 
+      loading="lazy" 
+      src={product.image_url || 'https://images.pexels.com/photos/30170004/pexels-photo-30170004.jpeg?auto=compress&cs=tinysrgb&w=1200'} 
+      alt={product.name || 'Sản phẩm Smart Home'} 
+    />
+  </div>
+  <div class="card-body">
+    <span class="card-kicker">{product.group_label || 'Thiết bị'}</span>
+    <h3>{product.name}</h3>
+    <p>{product.description}</p>
+    <div class="price">{displayPrice}</div>
+  </div>
+</article>
