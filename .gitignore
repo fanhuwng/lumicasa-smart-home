@@ -1,24 +1,21 @@
-# build output
+# Cloudflare Worker & D1 Local State (Cực kỳ quan trọng, không commit lên Git)
+.wrangler/
+.wrangler/**
+
+# Build outputs & Dependencies
+node_modules/
 dist/
-# generated types
 .astro/
 
-# dependencies
-node_modules/
+# Environment files & Secrets
+.env
+.env.*
+!.env.example
 
-# logs
+# Temporary files & Logs
+temp_images/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-pnpm-debug.log*
-
-
-# environment variables
-.env
-.env.production
-
-# macOS-specific files
 .DS_Store
-
-# jetbrains setting folder
-.idea/
+Thumbs.db
