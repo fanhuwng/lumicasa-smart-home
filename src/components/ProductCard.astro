@@ -1,21 +1,25 @@
 ---
-import type { Product } from '../lib/db';
+import { resolveImageUrl } from '../lib/db';
 
 interface Props {
-  product: Product;
+  product: any;
 }
 
 const { product } = Astro.props;
 
-// Xử lý giá tiền dự phòng nếu thiếu
+// Xử lý giá tiền hiển thị
 const displayPrice = product.price_display || (product.price ? `${Number(product.price).toLocaleString('vi-VN')}đ` : 'Liên hệ');
+
+// Tự động giải mã link ảnh từ EmDash Media Library hoặc dùng ảnh dự phòng
+const fallbackImage = 'https://images.pexels.com/photos/30170004/pexels-photo-30170004.jpeg?auto=compress&cs=tinysrgb&w=1200';
+const imageUrl = resolveImageUrl(product.image || product.image_url, fallbackImage);
 ---
 
 <article class="card">
   <div class="card-media">
     <img 
       loading="lazy" 
-      src={product.image_url || 'https://images.pexels.com/photos/30170004/pexels-photo-30170004.jpeg?auto=compress&cs=tinysrgb&w=1200'} 
+      src={imageUrl} 
       alt={product.name || 'Sản phẩm Smart Home'} 
     />
   </div>

@@ -1,22 +1,26 @@
 ---
-import type { Service } from '../lib/db';
+import { resolveImageUrl } from '../lib/db';
 
 interface Props {
-  service: Service;
+  service: any;
 }
 
 const { service } = Astro.props;
 
 // Tách các gạch đầu dòng tính năng (phân tách bởi dấu |)
 const featuresList = service.features ? service.features.split('|') : [];
+
+// Tự động giải mã link ảnh từ EmDash Media Library
+const fallbackImage = 'https://images.pexels.com/photos/28618498/pexels-photo-28618498.jpeg?auto=compress&cs=tinysrgb&w=1000';
+const imageUrl = resolveImageUrl(service.image || service.image_url, fallbackImage);
 ---
 
 <article class="card service-card">
   <div class="service-photo">
     <img 
       loading="lazy" 
-      src={service.image_url || 'https://images.pexels.com/photos/28618498/pexels-photo-28618498.jpeg?auto=compress&cs=tinysrgb&w=1000'} 
-      alt={service.name} 
+      src={imageUrl} 
+      alt={service.name || 'Dịch vụ'} 
     />
   </div>
   <div class="service-icon">{service.icon || '✦'}</div>
@@ -25,7 +29,7 @@ const featuresList = service.features ? service.features.split('|') : [];
   <p>{service.description}</p>
   {featuresList.length > 0 && (
     <ul>
-      {featuresList.map((item) => (
+      {featuresList.map((item: string) => (
         <li>{item.trim()}</li>
       ))}
     </ul>
