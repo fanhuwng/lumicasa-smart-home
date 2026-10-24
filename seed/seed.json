@@ -1,0 +1,766 @@
+{
+	"$schema": "https://emdashcms.com/seed.schema.json",
+	"version": "1",
+	"meta": {
+		"name": "LUMI CASA",
+		"description": "Website Smart Home LUMI CASA chạy trên EmDash + Cloudflare (D1/R2)",
+		"author": "Pacific Atlantis - bài test thực tập sinh"
+	},
+	"settings": {
+		"title": "LUMI CASA",
+		"tagline": "Smart Home • Security • Automation"
+	},
+	"collections": [
+		{
+			"slug": "products",
+			"label": "Sản phẩm",
+			"labelSingular": "Sản phẩm",
+			"urlPattern": "/products",
+			"supports": [
+				"drafts",
+				"revisions",
+				"preview",
+				"search"
+			],
+			"sortOrder": 10,
+			"fields": [
+				{
+					"slug": "title",
+					"label": "Tên sản phẩm",
+					"type": "string",
+					"required": true,
+					"searchable": true
+				},
+				{
+					"slug": "group",
+					"label": "Nhóm / label (hiện ở trang chủ)",
+					"type": "string",
+					"required": true
+				},
+				{
+					"slug": "short_label",
+					"label": "Label ngắn (hiện ở trang Sản phẩm, vd: Trung tâm)",
+					"type": "string"
+				},
+				{
+					"slug": "summary",
+					"label": "Mô tả ngắn (trang chủ)",
+					"type": "text",
+					"searchable": true
+				},
+				{
+					"slug": "description",
+					"label": "Mô tả chi tiết (trang Sản phẩm)",
+					"type": "text",
+					"searchable": true
+				},
+				{
+					"slug": "price",
+					"label": "Giá (VND)",
+					"type": "integer",
+					"required": true
+				},
+				{
+					"slug": "image",
+					"label": "Ảnh sản phẩm",
+					"type": "image"
+				},
+				{
+					"slug": "sort_order",
+					"label": "Thứ tự hiển thị (nhỏ → lớn)",
+					"type": "integer",
+					"defaultValue": 100
+				},
+				{
+					"slug": "show_on_home",
+					"label": "Hiện ở trang chủ",
+					"type": "boolean",
+					"defaultValue": true
+				}
+			]
+		},
+		{
+			"slug": "services",
+			"label": "Dịch vụ",
+			"labelSingular": "Dịch vụ",
+			"urlPattern": "/services",
+			"supports": [
+				"drafts",
+				"revisions",
+				"preview",
+				"search"
+			],
+			"sortOrder": 20,
+			"fields": [
+				{
+					"slug": "title",
+					"label": "Tên dịch vụ",
+					"type": "string",
+					"required": true,
+					"searchable": true
+				},
+				{
+					"slug": "description",
+					"label": "Mô tả",
+					"type": "text",
+					"searchable": true
+				},
+				{
+					"slug": "icon",
+					"label": "Icon (ký tự)",
+					"type": "string"
+				},
+				{
+					"slug": "image",
+					"label": "Ảnh minh họa",
+					"type": "image"
+				},
+				{
+					"slug": "features",
+					"label": "Bullet / tính năng",
+					"type": "repeater",
+					"validation": {
+						"maxItems": 8,
+						"subFields": [
+							{
+								"slug": "text",
+								"label": "Nội dung",
+								"type": "string",
+								"required": true
+							}
+						]
+					}
+				},
+				{
+					"slug": "sort_order",
+					"label": "Thứ tự hiển thị (nhỏ → lớn)",
+					"type": "integer",
+					"defaultValue": 100
+				}
+			]
+		},
+		{
+			"slug": "pages",
+			"label": "Trang",
+			"labelSingular": "Trang",
+			"urlPattern": "/{slug}",
+			"supports": [
+				"drafts",
+				"revisions",
+				"preview"
+			],
+			"sortOrder": 30,
+			"fields": [
+				{
+					"slug": "title",
+					"label": "Tên trang (nội bộ + tab trình duyệt)",
+					"type": "string",
+					"required": true
+				},
+				{
+					"slug": "meta_description",
+					"label": "Meta description (SEO)",
+					"type": "text"
+				},
+				{
+					"slug": "eyebrow",
+					"label": "Eyebrow (nhãn nhỏ phía trên)",
+					"type": "string"
+				},
+				{
+					"slug": "heading",
+					"label": "Tiêu đề chính (H1)",
+					"type": "string",
+					"required": true
+				},
+				{
+					"slug": "intro",
+					"label": "Đoạn giới thiệu",
+					"type": "text"
+				},
+				{
+					"slug": "hero_image",
+					"label": "Ảnh hero (trang chủ)",
+					"type": "image"
+				},
+				{
+					"slug": "primary_cta_label",
+					"label": "CTA chính - nhãn",
+					"type": "string"
+				},
+				{
+					"slug": "primary_cta_url",
+					"label": "CTA chính - URL",
+					"type": "string"
+				},
+				{
+					"slug": "secondary_cta_label",
+					"label": "CTA phụ - nhãn",
+					"type": "string"
+				},
+				{
+					"slug": "secondary_cta_url",
+					"label": "CTA phụ - URL",
+					"type": "string"
+				},
+				{
+					"slug": "stats",
+					"label": "Số liệu nổi bật",
+					"type": "repeater",
+					"validation": {
+						"maxItems": 4,
+						"subFields": [
+							{
+								"slug": "value",
+								"label": "Giá trị",
+								"type": "string",
+								"required": true
+							},
+							{
+								"slug": "label",
+								"label": "Nhãn",
+								"type": "string",
+								"required": true
+							}
+						]
+					}
+				},
+				{
+					"slug": "section_eyebrow",
+					"label": "Mục sản phẩm nổi bật - eyebrow",
+					"type": "string"
+				},
+				{
+					"slug": "section_heading",
+					"label": "Mục sản phẩm nổi bật - tiêu đề",
+					"type": "string"
+				},
+				{
+					"slug": "section_intro",
+					"label": "Mục sản phẩm nổi bật - mô tả",
+					"type": "text"
+				},
+				{
+					"slug": "banner_heading",
+					"label": "Banner - tiêu đề",
+					"type": "string"
+				},
+				{
+					"slug": "banner_text",
+					"label": "Banner - nội dung",
+					"type": "text"
+				},
+				{
+					"slug": "banner_cta_label",
+					"label": "Banner - nhãn nút",
+					"type": "string"
+				},
+				{
+					"slug": "banner_cta_url",
+					"label": "Banner - URL nút",
+					"type": "string"
+				}
+			]
+		},
+		{
+			"slug": "site_settings",
+			"label": "Cài đặt website",
+			"labelSingular": "Cài đặt website",
+			"supports": [
+				"drafts",
+				"revisions"
+			],
+			"sortOrder": 40,
+			"fields": [
+				{
+					"slug": "title",
+					"label": "Tên bản ghi",
+					"type": "string",
+					"required": true
+				},
+				{
+					"slug": "brand_name",
+					"label": "Tên thương hiệu (header)",
+					"type": "string",
+					"required": true
+				},
+				{
+					"slug": "contact_kicker",
+					"label": "Liên hệ - nhãn nhỏ",
+					"type": "string"
+				},
+				{
+					"slug": "contact_title",
+					"label": "Liên hệ - tiêu đề thẻ",
+					"type": "string"
+				},
+				{
+					"slug": "contact_note",
+					"label": "Liên hệ - ghi chú",
+					"type": "text"
+				},
+				{
+					"slug": "address",
+					"label": "Địa chỉ",
+					"type": "string"
+				},
+				{
+					"slug": "hotline",
+					"label": "Hotline",
+					"type": "string"
+				},
+				{
+					"slug": "email",
+					"label": "Email",
+					"type": "string"
+				},
+				{
+					"slug": "working_hours",
+					"label": "Giờ làm việc",
+					"type": "string"
+				},
+				{
+					"slug": "form_submit_label",
+					"label": "Form - nhãn nút gửi",
+					"type": "string"
+				},
+				{
+					"slug": "form_success_message",
+					"label": "Form - thông báo thành công",
+					"type": "string"
+				},
+				{
+					"slug": "form_note",
+					"label": "Form - ghi chú dưới form",
+					"type": "text"
+				},
+				{
+					"slug": "footer_left",
+					"label": "Footer - trái",
+					"type": "string"
+				},
+				{
+					"slug": "footer_right",
+					"label": "Footer - phải",
+					"type": "string"
+				}
+			]
+		}
+	],
+	"menus": [
+		{
+			"name": "primary",
+			"label": "Menu chính",
+			"items": [
+				{
+					"type": "custom",
+					"label": "Trang chủ",
+					"url": "/"
+				},
+				{
+					"type": "custom",
+					"label": "Sản phẩm",
+					"url": "/products"
+				},
+				{
+					"type": "custom",
+					"label": "Dịch vụ",
+					"url": "/services"
+				},
+				{
+					"type": "custom",
+					"label": "Liên hệ",
+					"url": "/contact"
+				}
+			]
+		},
+		{
+			"name": "header_cta",
+			"label": "Nút CTA trên header",
+			"items": [
+				{
+					"type": "custom",
+					"label": "Nhận tư vấn",
+					"url": "/contact"
+				}
+			]
+		}
+	],
+	"content": {
+		"site_settings": [
+			{
+				"id": "site-main",
+				"slug": "main",
+				"status": "published",
+				"data": {
+					"title": "Cài đặt chung",
+					"brand_name": "LUMI CASA",
+					"contact_kicker": "LUMI CASA Việt Nam",
+					"contact_title": "Smart Home Studio",
+					"contact_note": "Dữ liệu liên hệ dưới đây là nội dung mẫu cho website demo.",
+					"address": "128 Trần Duy Hưng, Cầu Giấy, Hà Nội",
+					"hotline": "0988 246 810",
+					"email": "hello@lumicasa.vn",
+					"working_hours": "08:30 – 18:00 • Thứ 2 đến Thứ 7",
+					"form_submit_label": "Gửi yêu cầu tư vấn",
+					"form_success_message": "Đã nhận thông tin demo. Cảm ơn bạn!",
+					"form_note": "Form demo chỉ mô phỏng tương tác, chưa kết nối hệ thống gửi dữ liệu thực tế.",
+					"footer_left": "© 2026 LUMI CASA — Demo website.",
+					"footer_right": "Smart Home • Security • Automation"
+				}
+			}
+		],
+		"pages": [
+			{
+				"id": "page-home",
+				"slug": "home",
+				"status": "published",
+				"data": {
+					"title": "Trang chủ",
+					"meta_description": "LUMI CASA - Giải pháp nhà thông minh, sản phẩm và dịch vụ Smart Home.",
+					"eyebrow": "Smart Home • Sống thông minh hơn",
+					"heading": "Ngôi nhà hiểu bạn trước cả khi bạn lên tiếng.",
+					"intro": "LUMI CASA cung cấp hệ sinh thái nhà thông minh tinh gọn: điều khiển ánh sáng, an ninh, chất lượng không khí và các kịch bản tự động theo thói quen gia đình.",
+					"hero_image": {
+						"$media": {
+							"url": "https://images.pexels.com/photos/28549934/pexels-photo-28549934.jpeg?auto=compress&cs=tinysrgb&w=1600",
+							"alt": "Minh họa hệ sinh thái nhà thông minh LUMI CASA",
+							"filename": "hero-smart-home.jpg"
+						}
+					},
+					"primary_cta_label": "Xem 4 sản phẩm",
+					"primary_cta_url": "/products",
+					"secondary_cta_label": "Khám phá dịch vụ",
+					"secondary_cta_url": "/services",
+					"stats": [
+						{
+							"value": "4",
+							"label": "Sản phẩm chủ lực"
+						},
+						{
+							"value": "6",
+							"label": "Dịch vụ triển khai"
+						},
+						{
+							"value": "24/7",
+							"label": "Giám sát hệ thống"
+						}
+					],
+					"section_eyebrow": "Sản phẩm nổi bật",
+					"section_heading": "Thiết bị gọn, trải nghiệm liền mạch.",
+					"section_intro": "Mỗi thiết bị được thiết kế để hoạt động độc lập nhưng phát huy tốt nhất khi kết nối thành một hệ sinh thái thống nhất.",
+					"banner_heading": "Bắt đầu từ một phòng, mở rộng cho cả ngôi nhà.",
+					"banner_text": "Đội ngũ LUMI CASA khảo sát nhu cầu và đề xuất cấu hình phù hợp theo ngân sách.",
+					"banner_cta_label": "Đặt lịch tư vấn",
+					"banner_cta_url": "/contact"
+				}
+			},
+			{
+				"id": "page-products",
+				"slug": "products",
+				"status": "published",
+				"data": {
+					"title": "Sản phẩm",
+					"meta_description": "Bốn thiết bị Smart Home của LUMI CASA: trung tâm điều khiển, công tắc cảm ứng, camera an ninh và cảm biến không khí.",
+					"eyebrow": "4 sản phẩm cụ thể",
+					"heading": "Thiết bị Smart Home cho từng nhu cầu.",
+					"intro": "Bốn sản phẩm mẫu đại diện cho một hệ sinh thái có thể mở rộng: điều khiển trung tâm, tương tác, an ninh và giám sát môi trường.",
+					"banner_heading": "Không cần mua tất cả ngay từ đầu.",
+					"banner_text": "Bạn có thể triển khai từng khu vực trước rồi mở rộng sau mà không phải thay lại toàn bộ hệ thống.",
+					"banner_cta_label": "Nhận cấu hình đề xuất",
+					"banner_cta_url": "/contact"
+				}
+			},
+			{
+				"id": "page-services",
+				"slug": "services",
+				"status": "published",
+				"data": {
+					"title": "Dịch vụ",
+					"meta_description": "Sáu dịch vụ Smart Home của LUMI CASA: từ khảo sát, thiết kế kịch bản, lắp đặt đến bảo trì và hỗ trợ từ xa.",
+					"eyebrow": "6 dịch vụ cụ thể",
+					"heading": "Từ khảo sát đến vận hành, một đội ngũ xuyên suốt.",
+					"intro": "LUMI CASA thiết kế giải pháp theo thói quen sử dụng thực tế thay vì lắp thật nhiều thiết bị không cần thiết."
+				}
+			},
+			{
+				"id": "page-contact",
+				"slug": "contact",
+				"status": "published",
+				"data": {
+					"title": "Liên hệ",
+					"meta_description": "Liên hệ LUMI CASA để nhận tư vấn cấu hình Smart Home cho căn hộ, nhà phố hoặc biệt thự.",
+					"eyebrow": "Liên hệ",
+					"heading": "Biến nhu cầu của bạn thành một ngôi nhà dễ sống hơn.",
+					"intro": "Gửi thông tin cơ bản, đội ngũ tư vấn sẽ đề xuất cấu hình mẫu phù hợp cho căn hộ, nhà phố hoặc biệt thự."
+				}
+			}
+		],
+		"products": [
+			{
+				"id": "prod-hub",
+				"slug": "lumi-hub-one",
+				"status": "published",
+				"data": {
+					"title": "Lumi Hub One",
+					"group": "Trung tâm điều khiển",
+					"short_label": "Trung tâm",
+					"summary": "Kết nối cảm biến, công tắc và kịch bản tự động trong một trung tâm duy nhất.",
+					"description": "Trung tâm kết nối toàn bộ thiết bị, hỗ trợ kịch bản “Về nhà”, “Đi ngủ”, “Ra ngoài” và quản lý từ điện thoại.",
+					"price": 2490000,
+					"sort_order": 10,
+					"show_on_home": true,
+					"image": {
+						"$media": {
+							"url": "https://images.pexels.com/photos/30170004/pexels-photo-30170004.jpeg?auto=compress&cs=tinysrgb&w=1200",
+							"alt": "Lumi Hub One",
+							"filename": "lumi-hub-one.jpg"
+						}
+					}
+				}
+			},
+			{
+				"id": "prod-touch",
+				"slug": "lumi-touch-s",
+				"status": "published",
+				"data": {
+					"title": "Lumi Touch S",
+					"group": "Công tắc cảm ứng",
+					"short_label": "Điều khiển",
+					"summary": "Mặt kính tối giản, phản hồi chạm nhanh và quản lý ngữ cảnh theo từng phòng.",
+					"description": "Công tắc cảm ứng 3 nút, mặt kính chống bám vân tay, có thể gán cảnh chiếu sáng và điều khiển từ xa.",
+					"price": 1290000,
+					"sort_order": 20,
+					"show_on_home": true,
+					"image": {
+						"$media": {
+							"url": "https://images.pexels.com/photos/22610370/pexels-photo-22610370.jpeg?auto=compress&cs=tinysrgb&w=1200",
+							"alt": "Lumi Touch S",
+							"filename": "lumi-touch-s.jpg"
+						}
+					}
+				}
+			},
+			{
+				"id": "prod-cam",
+				"slug": "lumi-guard-cam",
+				"status": "published",
+				"data": {
+					"title": "Lumi Guard Cam",
+					"group": "An ninh",
+					"short_label": "An ninh",
+					"summary": "Camera AI nhận diện chuyển động, cảnh báo khu vực và xem từ xa.",
+					"description": "Camera trong nhà độ phân giải cao, vùng cảnh báo tùy chỉnh, chế độ riêng tư và lưu lịch sử sự kiện.",
+					"price": 1890000,
+					"sort_order": 30,
+					"show_on_home": true,
+					"image": {
+						"$media": {
+							"url": "https://images.pexels.com/photos/24347621/pexels-photo-24347621.jpeg?auto=compress&cs=tinysrgb&w=1200",
+							"alt": "Lumi Guard Cam",
+							"filename": "lumi-guard-cam.jpg"
+						}
+					}
+				}
+			},
+			{
+				"id": "prod-air",
+				"slug": "lumi-air-sense",
+				"status": "published",
+				"data": {
+					"title": "Lumi Air Sense",
+					"group": "Môi trường sống",
+					"short_label": "Cảm biến",
+					"summary": "Theo dõi nhiệt độ, độ ẩm và chất lượng không khí theo thời gian thực.",
+					"description": "Cảm biến môi trường theo dõi nhiệt độ, độ ẩm, chất lượng không khí và kích hoạt máy lọc khi vượt ngưỡng.",
+					"price": 990000,
+					"sort_order": 40,
+					"show_on_home": true,
+					"image": {
+						"$media": {
+							"url": "https://images.pexels.com/photos/27662879/pexels-photo-27662879.jpeg?auto=compress&cs=tinysrgb&w=1200",
+							"alt": "Lumi Air Sense",
+							"filename": "lumi-air-sense.jpg"
+						}
+					}
+				}
+			}
+		],
+		"services": [
+			{
+				"id": "svc-1",
+				"slug": "khao-sat-tu-van",
+				"status": "published",
+				"data": {
+					"title": "Khảo sát & tư vấn",
+					"description": "Khảo sát mặt bằng, thói quen sinh hoạt và ngân sách để xác định phạm vi tự động hóa phù hợp.",
+					"icon": "⌂",
+					"sort_order": 10,
+					"features": [
+						{
+							"text": "Khảo sát hiện trạng"
+						},
+						{
+							"text": "Lập sơ đồ nhu cầu"
+						},
+						{
+							"text": "Dự toán sơ bộ"
+						}
+					],
+					"image": {
+						"$media": {
+							"url": "https://images.pexels.com/photos/28618498/pexels-photo-28618498.jpeg?auto=compress&cs=tinysrgb&w=1000",
+							"alt": "Khảo sát và tư vấn giải pháp nhà thông minh",
+							"filename": "khao-sat-tu-van.jpg"
+						}
+					}
+				}
+			},
+			{
+				"id": "svc-2",
+				"slug": "thiet-ke-kich-ban",
+				"status": "published",
+				"data": {
+					"title": "Thiết kế kịch bản Smart Home",
+					"description": "Xây dựng các kịch bản theo thời gian, cảm biến, trạng thái phòng và thói quen gia đình.",
+					"icon": "✦",
+					"sort_order": 20,
+					"features": [
+						{
+							"text": "Kịch bản ánh sáng"
+						},
+						{
+							"text": "Kịch bản an ninh"
+						},
+						{
+							"text": "Kịch bản tiết kiệm điện"
+						}
+					],
+					"image": {
+						"$media": {
+							"url": "https://images.pexels.com/photos/18136105/pexels-photo-18136105.jpeg?auto=compress&cs=tinysrgb&w=1000",
+							"alt": "Thiết kế kịch bản và hệ sinh thái Smart Home",
+							"filename": "thiet-ke-kich-ban.jpg"
+						}
+					}
+				}
+			},
+			{
+				"id": "svc-3",
+				"slug": "lap-dat-thiet-bi",
+				"status": "published",
+				"data": {
+					"title": "Lắp đặt thiết bị",
+					"description": "Triển khai thiết bị, cân chỉnh vị trí và tối ưu kết nối trong quá trình thi công.",
+					"icon": "⚙",
+					"sort_order": 30,
+					"features": [
+						{
+							"text": "Thi công gọn"
+						},
+						{
+							"text": "Cấu hình tại chỗ"
+						},
+						{
+							"text": "Bàn giao từng khu vực"
+						}
+					],
+					"image": {
+						"$media": {
+							"url": "https://images.pexels.com/photos/17018384/pexels-photo-17018384.jpeg?auto=compress&cs=tinysrgb&w=1000",
+							"alt": "Cấu hình và lắp đặt thiết bị nhà thông minh",
+							"filename": "lap-dat-thiet-bi.jpg"
+						}
+					}
+				}
+			},
+			{
+				"id": "svc-4",
+				"slug": "tich-hop-an-ninh",
+				"status": "published",
+				"data": {
+					"title": "Tích hợp an ninh",
+					"description": "Kết nối camera, cảm biến cửa, cảnh báo chuyển động và chế độ vắng nhà.",
+					"icon": "◎",
+					"sort_order": 40,
+					"features": [
+						{
+							"text": "Cảnh báo tức thời"
+						},
+						{
+							"text": "Phân vùng giám sát"
+						},
+						{
+							"text": "Nhật ký sự kiện"
+						}
+					],
+					"image": {
+						"$media": {
+							"url": "https://images.pexels.com/photos/26597080/pexels-photo-26597080.jpeg?auto=compress&cs=tinysrgb&w=1000",
+							"alt": "Tích hợp camera và an ninh thông minh",
+							"filename": "tich-hop-an-ninh.jpg"
+						}
+					}
+				}
+			},
+			{
+				"id": "svc-5",
+				"slug": "bao-tri-nang-cap",
+				"status": "published",
+				"data": {
+					"title": "Bảo trì & nâng cấp",
+					"description": "Kiểm tra định kỳ, cập nhật cấu hình và mở rộng thiết bị khi nhu cầu thay đổi.",
+					"icon": "↻",
+					"sort_order": 50,
+					"features": [
+						{
+							"text": "Kiểm tra hệ thống"
+						},
+						{
+							"text": "Tối ưu kịch bản"
+						},
+						{
+							"text": "Mở rộng thiết bị"
+						}
+					],
+					"image": {
+						"$media": {
+							"url": "https://images.pexels.com/photos/22307516/pexels-photo-22307516.jpeg?auto=compress&cs=tinysrgb&w=1000",
+							"alt": "Bảo trì và nâng cấp hệ thống Smart Home",
+							"filename": "bao-tri-nang-cap.jpg"
+						}
+					}
+				}
+			},
+			{
+				"id": "svc-6",
+				"slug": "ho-tro-tu-xa",
+				"status": "published",
+				"data": {
+					"title": "Hỗ trợ từ xa",
+					"description": "Hướng dẫn sử dụng, xử lý cấu hình và hỗ trợ các vấn đề phát sinh trong vận hành.",
+					"icon": "?",
+					"sort_order": 60,
+					"features": [
+						{
+							"text": "Hỗ trợ 7 ngày/tuần"
+						},
+						{
+							"text": "Hướng dẫn người dùng"
+						},
+						{
+							"text": "Khôi phục cấu hình"
+						}
+					],
+					"image": {
+						"$media": {
+							"url": "https://images.pexels.com/photos/8566440/pexels-photo-8566440.jpeg?auto=compress&cs=tinysrgb&w=1000",
+							"alt": "Hỗ trợ và điều khiển Smart Home từ xa",
+							"filename": "ho-tro-tu-xa.jpg"
+						}
+					}
+				}
+			}
+		]
+	}
+}
