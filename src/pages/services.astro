@@ -1,0 +1,38 @@
+---
+import { Image } from "emdash/ui";
+import Base from "../layouts/Base.astro";
+import { getOrdered, getPage } from "../lib/content";
+
+const { page, cacheHint } = await getPage("services");
+const { entries: services, cacheHint: sHint } = await getOrdered("services");
+if (Astro.cache?.enabled) { Astro.cache.set(cacheHint); Astro.cache.set(sHint); }
+---
+<Base route="/services" title={page?.title ?? "Dịch vụ"} description={page?.meta_description}>
+	<section class="page">
+		<div class="wrap page-head">
+			{page?.eyebrow && <span class="eyebrow">{page.eyebrow}</span>}
+			<h1>{page?.heading ?? "Dịch vụ"}</h1>
+			{page?.intro && <p>{page.intro}</p>}
+		</div>
+		<div class="wrap section" style="padding-top:18px">
+			<div class="grid services">
+				{services.length === 0
+					? <p class="empty">Chưa có dịch vụ nào được hiển thị.</p>
+					: services.map((entry, i) => {
+						const d = entry.data;
+						const features = (d.features ?? []) as { text: string }[];
+						return (
+							<article class="card service-card">
+								{d.image && <div class="service-photo" {...entry.edit.image}><Image image={d.image} loading="lazy" alt={d.image.alt || d.title} /></div>}
+								{d.icon && <div class="service-icon" aria-hidden="true">{d.icon}</div>}
+								<small>{String(i + 1).padStart(2, "0")}</small>
+								<h3 {...entry.edit.title}>{d.title}</h3>
+								{d.description && <p>{d.description}</p>}
+								{features.length > 0 && <ul>{features.map((f) => <li>{f.text}</li>)}</ul>}
+							</article>
+						);
+					})}
+			</div>
+		</div>
+	</section>
+</Base>

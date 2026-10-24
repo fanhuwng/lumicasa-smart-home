@@ -1,0 +1,73 @@
+---
+import Base from "../layouts/Base.astro";
+import { getPage, getSettings } from "../lib/content";
+
+const { page, cacheHint } = await getPage("contact");
+const { s, cacheHint: sHint } = await getSettings();
+if (Astro.cache?.enabled) { Astro.cache.set(cacheHint); Astro.cache.set(sHint); }
+const items = [
+	{ label: "Địa chỉ", value: s.address },
+	{ label: "Hotline", value: s.hotline },
+	{ label: "Email", value: s.email },
+	{ label: "Giờ làm việc", value: s.working_hours },
+].filter((i) => i.value);
+---
+<Base route="/contact" title={page?.title ?? "Liên hệ"} description={page?.meta_description}>
+	<section class="page">
+		<div class="wrap page-head">
+			{page?.eyebrow && <span class="eyebrow">{page.eyebrow}</span>}
+			<h1>{page?.heading ?? "Liên hệ"}</h1>
+			{page?.intro && <p>{page.intro}</p>}
+		</div>
+		<div class="wrap section" style="padding-top:18px">
+			<div class="contact-layout">
+				<div class="contact-card">
+					{s.contact_kicker && <span class="card-kicker">{s.contact_kicker}</span>}
+					{s.contact_title && <h2 style="font-size:34px;margin:10px 0 6px">{s.contact_title}</h2>}
+					{s.contact_note && <p style="color:var(--muted)">{s.contact_note}</p>}
+					<div class="contact-list">
+						{items.map((i) => <div class="contact-item"><span>{i.label}</span><strong>{i.value}</strong></div>)}
+					</div>
+				</div>
+				<form class="form-card" id="contactForm" novalidate data-success={s.form_success_message ?? "Đã nhận thông tin. Cảm ơn bạn!"}>
+					<div class="form-grid">
+						<div class="field"><label for="name">Họ và tên</label><input id="name" name="name" required autocomplete="name" placeholder="Nguyễn Văn A" /><span class="err" data-err="name"></span></div>
+						<div class="field"><label for="phone">Số điện thoại</label><input id="phone" name="phone" required inputmode="tel" autocomplete="tel" placeholder="09xx xxx xxx" /><span class="err" data-err="phone"></span></div>
+						<div class="field"><label for="homeType">Loại nhà</label><input id="homeType" name="homeType" placeholder="Căn hộ / Nhà phố / Biệt thự" /></div>
+						<div class="field"><label for="budget">Ngân sách dự kiến</label><input id="budget" name="budget" placeholder="Ví dụ: 30–50 triệu" /></div>
+						<div class="field full"><label for="message">Nhu cầu của bạn</label><textarea id="message" name="message" placeholder="Tôi muốn ưu tiên ánh sáng, an ninh và điều hòa..."></textarea></div>
+						<div class="field full"><button class="btn primary" type="submit">{s.form_submit_label ?? "Gửi yêu cầu"}</button></div>
+					</div>
+					{s.form_note && <div class="form-note">{s.form_note}</div>}
+				</form>
+			</div>
+		</div>
+	</section>
+	<div class="toast" id="toast" role="status" aria-live="polite"></div>
+</Base>
+
+<script>
+	const form = document.getElementById("contactForm") as HTMLFormElement | null;
+	const toast = document.getElementById("toast");
+	form?.addEventListener("submit", (e) => {
+		e.preventDefault();
+		const name = form.elements.namedItem("name") as HTMLInputElement;
+		const phone = form.elements.namedItem("phone") as HTMLInputElement;
+		const set = (el: HTMLInputElement, msg: string) => {
+			el.setAttribute("aria-invalid", msg ? "true" : "false");
+			const out = form.querySelector(`[data-err="${el.name}"]`);
+			if (out) out.textContent = msg;
+		};
+		const nameOk = name.value.trim().length >= 2;
+		const phoneOk = /^(\+?84|0)[0-9\s.\-]{8,12}$/.test(phone.value.trim());
+		set(name, nameOk ? "" : "Vui lòng nhập họ tên.");
+		set(phone, phoneOk ? "" : "Số điện thoại chưa hợp lệ (vd: 0988 246 810).");
+		if (!nameOk || !phoneOk) return;
+		if (toast) {
+			toast.textContent = form.dataset.success ?? "Đã gửi!";
+			toast.classList.add("show");
+			setTimeout(() => toast.classList.remove("show"), 2600);
+		}
+		form.reset();
+	});
+</script>

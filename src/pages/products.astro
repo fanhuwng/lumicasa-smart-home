@@ -1,0 +1,27 @@
+---
+import Base from "../layouts/Base.astro";
+import ProductCard from "../components/ProductCard.astro";
+import Banner from "../components/Banner.astro";
+import { getOrdered, getPage } from "../lib/content";
+
+const { page, cacheHint } = await getPage("products");
+const { entries: products, cacheHint: pHint } = await getOrdered("products");
+if (Astro.cache?.enabled) { Astro.cache.set(cacheHint); Astro.cache.set(pHint); }
+---
+<Base route="/products" title={page?.title ?? "Sản phẩm"} description={page?.meta_description}>
+	<section class="page">
+		<div class="wrap page-head">
+			{page?.eyebrow && <span class="eyebrow">{page.eyebrow}</span>}
+			<h1>{page?.heading ?? "Sản phẩm"}</h1>
+			{page?.intro && <p>{page.intro}</p>}
+		</div>
+		<div class="wrap section" style="padding-top:18px">
+			<div class="grid products">
+				{products.length === 0
+					? <p class="empty">Chưa có sản phẩm nào. Quay lại sau nhé!</p>
+					: products.map((entry, i) => <ProductCard entry={entry} variant="list" index={i} />)}
+			</div>
+			<Banner wrap={false} heading={page?.banner_heading} text={page?.banner_text} label={page?.banner_cta_label} url={page?.banner_cta_url} />
+		</div>
+	</section>
+</Base>

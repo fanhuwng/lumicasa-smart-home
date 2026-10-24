@@ -1,0 +1,10 @@
+---
+interface Props { heading?: string | null; text?: string | null; label?: string | null; url?: string | null; wrap?: boolean }
+const { heading, text, label, url, wrap = true } = Astro.props;
+---
+{heading && (
+	<div class:list={["banner", { wrap }]}>
+		<div><h3>{heading}</h3>{text && <p>{text}</p>}</div>
+		{label && url && <a class="btn primary" href={url}>{label}</a>}
+	</div>
+)}

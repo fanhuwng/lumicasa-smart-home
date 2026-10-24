@@ -1,0 +1,80 @@
+---
+import { getMenuWithCacheHint, getSiteSettingsWithCacheHint } from "emdash";
+import { EmDashHead, EmDashBodyStart, EmDashBodyEnd } from "emdash/ui";
+import { createPublicPageContext } from "emdash/page";
+import { getSettings } from "../lib/content";
+import "../styles/theme.css";
+
+interface Props {
+	title: string;
+	description?: string | null;
+	image?: string | null;
+	route: string; // "/" | "/products" | ...
+}
+const { title, description, image, route } = Astro.props;
+
+const [siteResult, menuResult, ctaResult, custom] = await Promise.all([
+	getSiteSettingsWithCacheHint(),
+	getMenuWithCacheHint("primary"),
+	getMenuWithCacheHint("header_cta"),
+	getSettings(),
+]);
+if (Astro.cache?.enabled) {
+	for (const r of [siteResult, menuResult, ctaResult]) Astro.cache.set(r.cacheHint);
+	Astro.cache.set(custom.cacheHint);
+}
+const s = custom.s;
+const siteTitle = siteResult.data.title ?? s.brand_name ?? "LUMI CASA";
+const brand = s.brand_name ?? siteTitle;
+const fullTitle = title.includes(siteTitle) ? title : `${title} — ${siteTitle}`;
+const desc = description ?? siteResult.data.tagline ?? "";
+const menu = menuResult.data?.items ?? [];
+const cta = ctaResult.data?.items?.[0];
+const active = (url: string) => (url === "/" ? route === "/" : route === url || route.startsWith(url + "/"));
+
+const pageCtx = createPublicPageContext({
+	Astro,
+	kind: "custom",
+	pageType: "website",
+	title: fullTitle,
+	pageTitle: title,
+	description: desc,
+	image,
+	siteName: siteTitle,
+});
+---
+
+<!doctype html>
+<html lang="vi">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>{fullTitle}</title>
+		<EmDashHead page={pageCtx} />
+	</head>
+	<body>
+		<EmDashBodyStart page={pageCtx} />
+		<header>
+			<div class="wrap nav">
+				<a class="brand" href="/" aria-label={`Về trang chủ ${brand}`}>
+					{siteResult.data.logo?.url ? <img src={siteResult.data.logo.url} alt={siteResult.data.logo.alt || brand} /> : <span class="brand-mark"></span>}
+					<span>{brand}</span>
+				</a>
+				<nav aria-label="Điều hướng chính">
+					{menu.map((item) => (
+						<a class:list={["nav-link", { active: active(item.url) }]} href={item.url} target={item.target} rel={item.target === "_blank" ? "noopener noreferrer" : undefined} aria-current={active(item.url) ? "page" : undefined}>{item.label}</a>
+					))}
+					{cta && <a class="nav-cta" href={cta.url}>{cta.label}</a>}
+				</nav>
+			</div>
+		</header>
+		<main><slot /></main>
+		<footer class="footer">
+			<div class="wrap footer-inner">
+				<span>{s.footer_left}</span>
+				<span>{s.footer_right}</span>
+			</div>
+		</footer>
+		<EmDashBodyEnd page={pageCtx} />
+	</body>
+</html>

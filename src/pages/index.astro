@@ -1,0 +1,53 @@
+---
+import { Image } from "emdash/ui";
+import Base from "../layouts/Base.astro";
+import ProductCard from "../components/ProductCard.astro";
+import Banner from "../components/Banner.astro";
+import { getOrdered, getPage } from "../lib/content";
+
+const { page, edit, cacheHint } = await getPage("home");
+const { entries: products, cacheHint: pHint } = await getOrdered("products", { limit: 8 });
+const featured = products.filter((p) => p.data.show_on_home !== false);
+if (Astro.cache?.enabled) { Astro.cache.set(cacheHint); Astro.cache.set(pHint); }
+const stats = (page?.stats ?? []).map((st: any) => ({ ...st }));
+---
+<Base route="/" title={page?.title === "Trang chủ" ? "LUMI CASA — Smart Home" : (page?.title ?? "LUMI CASA")} description={page?.meta_description}>
+	<section class="page">
+		<div class="wrap hero">
+			<div>
+				{page?.eyebrow && <span class="eyebrow">{page.eyebrow}</span>}
+				<h1 {...edit?.heading}>{page?.heading ?? "LUMI CASA"}</h1>
+				{page?.intro && <p>{page.intro}</p>}
+				<div class="hero-actions">
+					{page?.primary_cta_label && <a class="btn primary" href={page.primary_cta_url ?? "/products"}>{page.primary_cta_label}</a>}
+					{page?.secondary_cta_label && <a class="btn" href={page.secondary_cta_url ?? "/services"}>{page.secondary_cta_label}</a>}
+				</div>
+			</div>
+			<div class="hero-media">
+				{page?.hero_image && <Image image={page.hero_image} loading="eager" alt={page.hero_image.alt || "Minh họa hệ sinh thái nhà thông minh"} />}
+				{stats.length > 0 && (
+					<div class="statbar">
+						{stats.map((st: any) => <div class="stat"><strong>{st.value}</strong><span>{st.label}</span></div>)}
+					</div>
+				)}
+			</div>
+		</div>
+
+		<div class="wrap section">
+			<div class="section-title">
+				<div>
+					{page?.section_eyebrow && <span class="card-kicker">{page.section_eyebrow}</span>}
+					<h2>{page?.section_heading}</h2>
+				</div>
+				{page?.section_intro && <p>{page.section_intro}</p>}
+			</div>
+			<div class="grid products">
+				{featured.length === 0
+					? <p class="empty">Chưa có sản phẩm nào được hiển thị.</p>
+					: featured.map((entry) => <ProductCard entry={entry} variant="home" />)}
+			</div>
+		</div>
+
+		<Banner heading={page?.banner_heading} text={page?.banner_text} label={page?.banner_cta_label} url={page?.banner_cta_url} />
+	</section>
+</Base>

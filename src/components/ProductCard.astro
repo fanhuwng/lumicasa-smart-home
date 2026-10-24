@@ -1,0 +1,22 @@
+---
+import { Image } from "emdash/ui";
+import { formatPrice } from "../lib/content";
+interface Props { entry: any; variant?: "home" | "list"; index?: number }
+const { entry, variant = "home", index = 0 } = Astro.props;
+const d = entry.data;
+const kicker = variant === "list"
+	? `${String(index + 1).padStart(2, "0")} • ${d.short_label ?? d.group ?? ""}`
+	: d.group;
+const body = variant === "list" ? d.description ?? d.summary : d.summary ?? d.description;
+---
+<article class="card">
+	<div class="card-media" {...entry.edit.image}>
+		{d.image ? <Image image={d.image} loading="lazy" alt={d.image.alt || d.title} /> : <div style="aspect-ratio:1.15/1;border-radius:18px;background:#10243a"></div>}
+	</div>
+	<div class="card-body">
+		<span class="card-kicker">{kicker}</span>
+		<h3 {...entry.edit.title}>{d.title}</h3>
+		{body && <p>{body}</p>}
+		<div class="price" {...entry.edit.price}>{formatPrice(d.price)}</div>
+	</div>
+</article>
