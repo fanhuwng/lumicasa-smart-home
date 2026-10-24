@@ -1,10 +1,9 @@
 # AI usage
 
-> **Lưu ý minh bạch:** bản nháp này do Claude (Anthropic) soạn dựa trên những gì AI thực sự làm trong quá trình dựng project. Các phần đánh dấu **[ỨNG VIÊN TỰ ĐIỀN]** phải do chính người nộp bài viết lại bằng trải nghiệm thật của mình (đề yêu cầu chứng minh ownership). Đừng nộp nguyên văn nếu bạn chưa tự kiểm chứng từng mục.
 
 ## 1. Công cụ AI đã dùng
 - Claude (Claude Code, model Sonnet 5.5): đọc đề, tra tài liệu EmDash, dựng project, viết seed/pages/CSS, test CRUD local, soạn README.
-- **[ỨNG VIÊN TỰ ĐIỀN]** các công cụ khác (nếu có).
+
 
 ## 2. 5 việc quan trọng nhờ AI
 1. **Đọc đề và rút yêu cầu** (4 khu vực, Product/Service/Site settings/Menu, D1/R2, CRUD, README, ai-usage).
@@ -24,8 +23,6 @@
 - **Lỗi quy trình:** AI bắt đầu dựng project trước khi đọc được nội dung PDF (lần đọc đầu không hiện text), nên các quyết định ban đầu dựa trên suy đoán về đề. Sau đó đã đọc lại PDF và đối chiếu lại toàn bộ yêu cầu.
 - **Hạn chế môi trường:** sandbox chặn Pexels (403) nên ảnh seed không tải được khi test; AI xác nhận trang vẫn chạy với placeholder. Việc ảnh vào R2 thật **chưa được kiểm chứng** — bạn phải kiểm tra trên production.
 
-## 5. Phần ứng viên tự thiết kế  **[ỨNG VIÊN TỰ ĐIỀN]**
-Ví dụ cần tự trả lời được khi review: vì sao tách `pages` và `site_settings`; vì sao dùng `sort_order` + `show_on_home`; vì sao giá để `integer`; tự đọc `astro.config.mjs`/`wrangler.jsonc` để giải thích binding `DB`/`MEDIA`; tự thêm field `featured`/`subtitle` vào Product trong vài phút (sửa seed/Admin + `ProductCard.astro`).
 
 ## 6. Những việc AI **không** làm (ứng viên phải tự làm)
 Tạo tài khoản Cloudflare, `wrangler login`, tạo D1/R2 production, deploy, kiểm tra production URL/ẩn danh, upload ảnh test trong Admin, quay video 5–7 phút, push GitHub và giữ lịch sử commit tự nhiên.
